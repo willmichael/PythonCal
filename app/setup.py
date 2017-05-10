@@ -9,7 +9,9 @@ from setuptools import setup
 
 APP = ['PythonCal.py']
 DATA_FILES = []
-OPTIONS = {}
+OPTIONS = {
+    'packages': ['rumps']
+}
 
 setup(
     app=APP,
