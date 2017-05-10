@@ -1,0 +1,8 @@
+altgraph==0.14
+appdirs==1.4.3
+macholib==1.8
+modulegraph==0.15
+packaging==16.8
+py2app==0.13
+pyparsing==2.2.0
+six==1.10.0
