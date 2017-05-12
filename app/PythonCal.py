@@ -22,6 +22,14 @@ class PyCal():
     def u(self, date, name):
         insert_event(date, name)
 
+    # QuickUpdate Calendar
+    def qu(self, *args):
+        text = ""
+        for a in args:
+            text += " "
+            text += str(a)
+        quick_insert_event(text)
+
     # Display day
     def d(self, *args):
         count = len(args)
@@ -49,6 +57,13 @@ class PyCal():
     ### TODO: - implement
 
 ### MARK: - Insert
+def quick_insert_event(text):
+    print text
+    service = auth()
+    event = service.events().quickAdd(
+            calendarId='primary',
+            text=text).execute()
+    print 'Event created: %s' % (event.get('htmlLink'))
 
 def insert_event(*args):
     service = auth()
