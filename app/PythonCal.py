@@ -4,19 +4,20 @@ import time
 import fire
 import os
 import httplib2
-import os
-
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 import datetime as dt
+from dateutil import tz
 
+### MARK: - Constant
 
+timeZone = "America/Los_Angeles"
+
+### MARK: - CLI Inputs
 
 class PyCal():
-### MARK: - Inputs
-
     # Update Calendar
     def u(self, date, name):
         insert_event(date, name)
@@ -55,8 +56,12 @@ def insert_event(*args):
     tod = (dt.date.today() + dt.timedelta(days=args[0])).isoformat()
     start_date = append_time(tod, 0)
     end_date = append_time(tod, 1)
-    event['start'] = {'dateTime': start_date}
-    event['end'] = {'dateTime': end_date}
+    event['start'] = {'dateTime': start_date,
+                     'timeZone': timeZone}
+    print event['start']
+    event['end'] = {'dateTime': end_date,
+                    'timeZone': timeZone}
+    print event['end']
     event['summary'] = args[1]
     event = service.events().insert(calendarId='primary', body=event).execute()
     print 'Event created: %s' % (event.get('htmlLink'))
@@ -116,11 +121,16 @@ def disp_day(day_start, day_offset):
 # Append time beginning or time end
 def append_time(date, time):
     if time == 0:
-        return date + "T00:00:00.00Z"
+        return date + "T00:00:00Z"
     if time == 1:
-        return date + "T01:00:00.00Z"
+        return date + "T01:00:00Z"
     else:
-        return date + "T23:59:59.00Z"
+        return date + "T23:59:59Z"
+
+def date_to_utc(time):
+    dt.date.utcnow()
+    pass
+
 
 # MARK: - auth
 
